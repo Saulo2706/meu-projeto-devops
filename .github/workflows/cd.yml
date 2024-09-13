@@ -1,0 +1,22 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Package and upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: projetozipado
+          path: |
+            '**/*.py'
+            README.md
