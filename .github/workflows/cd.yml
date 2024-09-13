@@ -9,14 +9,13 @@ jobs:
   deliver:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository codeu
-        uses: actions/checkout@v4
+      - name: Check out repository code
+        uses: actions/checkout@v3
 
-      - name: Simulando code
-        uses: actions/upload-artifact@v4
+      - name: Simulando Deploy
+        uses: actions/upload-artifact@v3
         with:
-          name: projetozipado.zip
+          name: projetozipado
           path: |
-              '**.py'
-              README.md
-
+            '**/*.py'
+            README.md
