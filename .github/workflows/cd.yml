@@ -1,0 +1,27 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy to Server
+      env:
+        HOST: ${{ secrets.DEPLOY_HOST }}
+        USERNAME: ${{ secrets.DEPLOY_USERNAME }}
+        SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      run: |
+        echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+        ssh -o StrictHostKeyChecking=no $USERNAME@$HOST 'bash -s' << 'EOF'
+        cd /path/to/your/app
+        git pull origin main
+        # Execute os comandos de deploy necessários aqui, ex:
+        # pip install -r requirements.txt
+        # systemctl restart your-app
+        EOF
