@@ -35,12 +35,12 @@ jobs:
       if: success()  # Envia alerta apenas se os testes passarem
       run: |
         curl -H "Content-Type: application/json" \
-        -d "{\"content\": \"Tests passed on branch ${{ github.ref }}!\"}" \
+        -d "{\"content\": \"Testes passados com sucesso!!\"}" \
         ${{ secrets.DISCORD_WEBHOOK_URL }}
 
     - name: Send failure alert to Discord
       if: failure()  # Envia alerta apenas se os testes falharem
       run: |
         curl -H "Content-Type: application/json" \
-        -d "{\"content\": \"Tests failed on branch ${{ github.ref }}.\"}" \
+        -d "{\"content\": \"Testes passados com erro.\"}" \
         ${{ secrets.DISCORD_WEBHOOK_URL }}
