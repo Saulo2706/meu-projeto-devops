@@ -18,12 +18,12 @@ def about():
 def contact():
     return "Rota contact!"
 
-@app.route('/non-existent-page')
-def nonExistent():
+@app.route('/nonexistentpage')
+def nonexistentpage():
     return "Rota non-existent-page!"
 
 @app.route('/login')
-def nonExistent():
+def login():
     return "Rota login!"
 
 if __name__ == '__main__':
