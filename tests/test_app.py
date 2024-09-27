@@ -12,9 +12,12 @@ class BasicTests(unittest.TestCase):
         response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
 
-    def test_failure(self):
+    #def test_failure(self):
         # Este teste sempre falhará
-        self.assertEqual(1, 2)  # Isso irá falhar
+        #self.assertEqual(1, 2)  # Isso irá falhar
+        
+    def test_success(self):
+        self.assertEqual(1, 1)  # Este deve passar
 
 if __name__ == "__main__":
     unittest.main()
