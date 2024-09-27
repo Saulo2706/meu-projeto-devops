@@ -1,24 +1,46 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Check out code
+      uses: actions/checkout@v3
+
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.8'
+        python-version: '3.9'
+
     - name: Install dependencies
       run: |
-        python -m venv venv
-        . venv/bin/activate
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Run tests
-      run: |
-        . venv/bin/activate
 
-        echo "Tests passed!"
+    - name: Run tests
+      id: run_tests
+      run: |
+        python -m unittest discover -s tests
+
+    - name: Send success alert to Discord
+      if: success()  # Envia alerta apenas se os testes passarem
+      run: |
+        curl -H "Content-Type: application/json" \
+        -d "{\"content\": \"Tests passed on branch ${{ github.ref }}!\"}" \
+        ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    - name: Send failure alert to Discord
+      if: failure()  # Envia alerta apenas se os testes falharem
+      run: |
+        curl -H "Content-Type: application/json" \
+        -d "{\"content\": \"Tests failed on branch ${{ github.ref }}.\"}" \
+        ${{ secrets.DISCORD_WEBHOOK_URL }}
